@@ -1,0 +1,2 @@
+const JWT_USER_PASSWORD ="abcd123";
+const JWT_ADMIN_PASSWORD="admin123";

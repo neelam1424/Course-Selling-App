@@ -1,8 +1,8 @@
 const express =require("express")
 const mongoose=require("mongoose")
-const {userRoute}=require("./middleware/user")
-const {courseRoute}=require("./middleware/course")
-const {adminRoute}= require("./middleware/admin")
+const {userRoute}=require("./routes/user")
+const {courseRoute}=require("./routes/course")
+const {adminRoute}= require("./routes/admin")
 
 
 const app=express();
