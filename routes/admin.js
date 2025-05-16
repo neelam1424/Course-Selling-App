@@ -1,5 +1,5 @@
 const {Router}=require("express")
-const {adminModel}=require("../db");
+const {adminModel,courseModel}=require("../db");
 const jwt=require("jsonwebtoken");
 const {JWT_ADMIN_PASSWORD} =require("../config");
 const {adminMiddleware}=require("../middleware/admin")
@@ -57,15 +57,7 @@ adminRoute.post("/signin",async(req,res)=>{
 });
 
 
-adminRoute.post("/",function(req,res){
-    res.json({
-        message: "Admin signup"
-    })
-});
-
-
-
-adminRoute.put("/course",adminMiddleware,async function(req,res){
+adminRoute.post("/course",adminMiddleware,async function(req,res){
 
     const adminId=req.userId;
 
@@ -85,10 +77,41 @@ adminRoute.put("/course",adminMiddleware,async function(req,res){
     })
 });
 
-adminRoute.get("/bulk",function(req,res){
-    res.json({
-        message: "Admin signup"
+
+adminRoute.put("/course",adminMiddleware,async function(req,res){
+
+    const adminId=req.userId;
+
+    const {title,description,imageUrl,price,courseId}=req.body;
+
+    await courseModel.updateOne({
+        _id:courseId,
+        creatorId:adminId
+    },{
+        title:title,
+        description:description,
+        imageUrl:imageUrl,
+        price:price,
     })
+    res.json({
+        message: "Course updated",
+        courseId:course._id
+    })
+});
+
+
+
+adminRoute.get("/bulk",adminMiddleware,async function(req,res){
+  const adminId=req.userId;
+
+  const courses=await courseModel.find({
+    creatorId:adminId
+  });
+  res.json({
+    message:"Course updated",
+    courses
+  })
+
 });
 
 
